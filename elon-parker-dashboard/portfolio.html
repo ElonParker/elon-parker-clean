@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤖 Elon Parker — Portfolio de Projetos SEO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #00bcd4;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            color: #00bcd4;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        header p {
+            color: #b0b0b0;
+            font-size: 1.1em;
+        }
+
+        /* Project Tabs */
+        .project-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .project-tab {
+            padding: 10px 20px;
+            border: 2px solid #333;
+            background: transparent;
+            color: #e0e0e0;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .project-tab.active {
+            border-color: currentColor;
+            background: rgba(0, 188, 212, 0.1);
+            font-weight: bold;
+        }
+
+        .project-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Project Container */
+        .project-content {
+            display: none;
+        }
+
+        .project-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Project Header */
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 4px solid;
+        }
+
+        .project-info h2 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .project-info p {
+            color: #b0b0b0;
+            font-size: 1em;
+        }
+
+        .project-status {
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Category Sections */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #00bcd4;
+            transform: translateY(-2px);
+        }
+
+        .category-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #00bcd4;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-icon {
+            font-size: 1.5em;
+        }
+
+        .category-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 120px;
+            background: rgba(0, 188, 212, 0.1);
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #00bcd4;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #00bcd4;
+        }
+
+        .stat-label {
+            font-size: 0.85em;
+            color: #b0b0b0;
+            margin-top: 5px;
+        }
+
+        /* Detailed View */
+        .detailed-view {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .detailed-view h3 {
+            font-size: 1.5em;
+            color: #00bcd4;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tables */
+        .category-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            margin-bottom: 30px;
+        }
+
+        .category-table thead {
+            background: rgba(0, 188, 212, 0.1);
+        }
+
+        .category-table th {
+            padding: 12px;
+            text-align: left;
+            color: #00bcd4;
+            font-weight: bold;
+            border-bottom: 2px solid #00bcd4;
+        }
+
+        .category-table td {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+        }
+
+        .category-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* Metrics Dashboard */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-box {
+            background: linear-gradient(135deg, rgba(0, 188, 212, 0.1) 0%, rgba(0, 188, 212, 0.05) 100%);
+            border: 1px solid #00bcd4;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #00bcd4;
+            margin-bottom: 5px;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #b0b0b0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid #333;
+            color: #b0b0b0;
+        }
+
+        footer p {
+            margin-bottom: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .project-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-tabs {
+                flex-direction: column;
+            }
+
+            .project-tab {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🤖 Elon Parker — Portfolio SEO</h1>
+            <p>Sistema Integrado de Backlinks, Domínios, Keywords e Métricas</p>
+        </header>
+
+        <!-- Project Tabs -->
+        <div class="project-tabs" id="projectTabs"></div>
+
+        <!-- Project Content -->
+        <div id="projectsContainer"></div>
+
+        <!-- Footer -->
+        <footer>
+            <p>🔄 Elon Parker — Assistente Pessoal de SEO & Marketing</p>
+            <p>📊 Dashboard em tempo real | 🔗 Backlinks | 🌐 Domínios | 🔑 Keywords</p>
+            <p style="font-size: 0.9em; margin-top: 20px; color: #888;">
+                Última atualização: <span id="lastUpdate"></span>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Data inline
+        const projectsData = [
+            {
+                id: "acompanhantes10",
+                name: "acompanhantes10.com",
+                niche: "Adult - Acompanhantes",
+                status: "Ativo",
+                color: "#FF6B9D",
+                backlinks: { monitoramento: 0, contatos: 0, orcamentos: 0, renovacoes: 0 },
+                dominios: { pesquisados: 0, comprados: 1, auto_renewal: 1 },
+                keywords: { total: 0, ranking_p1: 0, em_otimizacao: 0 },
+                metricas: { backlinks: 0, da: 0, keywords: 0, trafego: 0, receita: 0 }
+            },
+            {
+                id: "7k-bet-br",
+                name: "7k.bet.br",
+                niche: "Gambling/Betting",
+                status: "Ativo",
+                color: "#00BCD4",
+                backlinks: { monitoramento: 0, contatos: 0, orcamentos: 0, renovacoes: 0 },
+                dominios: { pesquisados: 0, comprados: 1, auto_renewal: 1 },
+                keywords: { total: 0, ranking_p1: 0, em_otimizacao: 0 },
+                metricas: { backlinks: 0, da: 0, keywords: 0, trafego: 0, receita: 0 }
+            },
+            {
+                id: "qualcep-org",
+                name: "qualcep.org",
+                niche: "Utility/Tools",
+                status: "Ativo",
+                color: "#4CAF50",
+                backlinks: { monitoramento: 0, contatos: 0, orcamentos: 0, renovacoes: 0 },
+                dominios: { pesquisados: 0, comprados: 1, auto_renewal: 1 },
+                keywords: { total: 0, ranking_p1: 0, em_otimizacao: 0 },
+                metricas: { backlinks: 0, da: 0, keywords: 0, trafego: 0, receita: 0 }
+            },
+            {
+                id: "fastjournal-ig",
+                name: "instagram.com/fastjournal",
+                niche: "Social/Content",
+                status: "Ativo",
+                color: "#E91E63",
+                social: { seguidores: 0, engagement: 0, posts_mes: 0, parcerias: 0 },
+                metricas: { seguidores: 0, engagement: 0, posts: 0, receita: 0 }
+            }
+        ];
+
+        let currentProject = null;
+
+        function renderProjectTabs() {
+            const tabsContainer = document.getElementById('projectTabs');
+            tabsContainer.innerHTML = '';
+
+            projectsData.forEach((project, index) => {
+                const tab = document.createElement('button');
+                tab.className = 'project-tab';
+                if (index === 0) tab.classList.add('active');
+                tab.textContent = project.name;
+                tab.style.color = project.color;
+                tab.onclick = () => selectProject(index);
+                tabsContainer.appendChild(tab);
+            });
+        }
+
+        function selectProject(index) {
+            // Update tabs
+            document.querySelectorAll('.project-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+
+            // Update content
+            currentProject = projectsData[index];
+            renderProjectContent();
+        }
+
+        function renderProjectContent() {
+            const container = document.getElementById('projectsContainer');
+            container.innerHTML = '';
+
+            const project = currentProject;
+
+            // Project Header
+            const header = document.createElement('div');
+            header.className = 'project-header';
+            header.style.borderLeftColor = project.color;
+            header.innerHTML = `
+                <div class="project-info">
+                    <h2>${project.name}</h2>
+                    <p>📍 ${project.niche}</p>
+                </div>
+                <div class="project-status">${project.status}</div>
+            `;
+            container.appendChild(header);
+
+            // Categories Grid
+            const categoriesGrid = document.createElement('div');
+            categoriesGrid.className = 'categories-grid';
+
+            if (project.backlinks) {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <h3><span class="category-icon">🔗</span> Backlinks</h3>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">${project.backlinks.monitoramento}</div>
+                            <div class="stat-label">Monitoramento</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.backlinks.contatos}</div>
+                            <div class="stat-label">Contatos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.backlinks.orcamentos}</div>
+                            <div class="stat-label">Orçamentos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.backlinks.renovacoes}</div>
+                            <div class="stat-label">Renovações</div>
+                        </div>
+                    </div>
+                `;
+                categoriesGrid.appendChild(card);
+            }
+
+            if (project.dominios) {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <h3><span class="category-icon">🌐</span> Domínios</h3>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">${project.dominios.pesquisados}</div>
+                            <div class="stat-label">Pesquisados</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.dominios.comprados}</div>
+                            <div class="stat-label">Comprados</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.dominios.auto_renewal}</div>
+                            <div class="stat-label">Auto-Renewal</div>
+                        </div>
+                    </div>
+                `;
+                categoriesGrid.appendChild(card);
+            }
+
+            if (project.keywords) {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <h3><span class="category-icon">🔑</span> Keywords</h3>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">${project.keywords.total}</div>
+                            <div class="stat-label">Total</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.keywords.ranking_p1}</div>
+                            <div class="stat-label">Ranking P1</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.keywords.em_otimizacao}</div>
+                            <div class="stat-label">Em Otimização</div>
+                        </div>
+                    </div>
+                `;
+                categoriesGrid.appendChild(card);
+            }
+
+            if (project.social) {
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <h3><span class="category-icon">📱</span> Social Media</h3>
+                    <div class="category-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">${project.social.seguidores}</div>
+                            <div class="stat-label">Seguidores</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.social.engagement}</div>
+                            <div class="stat-label">Engagement</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.social.posts_mes}</div>
+                            <div class="stat-label">Posts/Mês</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">${project.social.parcerias}</div>
+                            <div class="stat-label">Parcerias</div>
+                        </div>
+                    </div>
+                `;
+                categoriesGrid.appendChild(card);
+            }
+
+            container.appendChild(categoriesGrid);
+
+            // Metrics Dashboard
+            const dashboard = document.createElement('div');
+            dashboard.className = 'detailed-view';
+            dashboard.innerHTML = '<h3>📊 Dashboard de Métricas</h3>';
+
+            const metricsGrid = document.createElement('div');
+            metricsGrid.className = 'metrics-grid';
+
+            Object.entries(project.metricas).forEach(([key, value]) => {
+                const box = document.createElement('div');
+                box.className = 'metric-box';
+                const label = key
+                    .replace(/_/g, ' ')
+                    .replace(/([A-Z])/g, ' $1')
+                    .trim()
+                    .split(' ')
+                    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+                    .join(' ');
+                box.innerHTML = `
+                    <div class="metric-value">${value}</div>
+                    <div class="metric-label">${label}</div>
+                `;
+                metricsGrid.appendChild(box);
+            });
+
+            dashboard.appendChild(metricsGrid);
+            container.appendChild(dashboard);
+
+            // Detailed sections
+            const detailed = document.createElement('div');
+            detailed.className = 'detailed-view';
+            detailed.innerHTML = `
+                <h3>📋 Guia de Categorias</h3>
+                <table class="category-table">
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>O que monitorar</th>
+                            <th>Arquivo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color: #FF6B9D; font-weight: bold;">🔗 Backlinks</td>
+                            <td>Sites monitorados, contatos, orçamentos, renovações</td>
+                            <td>projetos/${project.id}/backlinks/</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #4CAF50; font-weight: bold;">🌐 Domínios</td>
+                            <td>Pesquisa, compras, renovações, auto-renewal</td>
+                            <td>projetos/${project.id}/dominios/</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #00BCD4; font-weight: bold;">🔑 Keywords</td>
+                            <td>Keywords principais, volume, CPC, estratégia</td>
+                            <td>projetos/${project.id}/keywords/</td>
+                        </tr>
+                        <tr>
+                            <td style="color: #E91E63; font-weight: bold;">📊 Métricas</td>
+                            <td>KPIs consolidados, progresso, ROI</td>
+                            <td>projetos/${project.id}/metricas.md</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            container.appendChild(detailed);
+        }
+
+        function updateLastUpdate() {
+            const now = new Date();
+            document.getElementById('lastUpdate').textContent = now.toLocaleString('pt-BR');
+        }
+
+        // Initialize
+        renderProjectTabs();
+        selectProject(0);
+        updateLastUpdate();
+
+        // Update time every minute
+        setInterval(updateLastUpdate, 60000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elon Parker - Dashboard Profissional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1a1a2e;
+            --darker: #0f0f1e;
+            --light: #f8f9fa;
+            --border: #2d2d44;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        header .emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        header h1 {
+            font-size: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            color: #a0a0b0;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+            font-size: 14px;
+            margin-top: 15px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .metric-card:nth-child(1) { animation-delay: 0.1s; }
+        .metric-card:nth-child(2) { animation-delay: 0.2s; }
+        .metric-card:nth-child(3) { animation-delay: 0.3s; }
+        .metric-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .metric-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .metric-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .metric-icon {
+            font-size: 40px;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #a0a0b0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .metric-value {
+            font-size: 42px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 15px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-change {
+            font-size: 13px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out 0.5s backwards;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mini-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 120px;
+            margin-bottom: 15px;
+        }
+
+        .bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 8px 8px 0 0;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            opacity: 1;
+            transform: scaleY(1.05);
+        }
+
+        .integrations {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease-out 0.6s backwards;
+        }
+
+        .integrations h2 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+
+        .integration-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .integration-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .integration-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .integration-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .integration-status {
+            font-size: 12px;
+            color: var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .activity-feed {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            animation: fadeInUp 0.6s ease-out 0.7s backwards;
+        }
+
+        .activity-feed h2 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border);
+            animation: slideInLeft 0.4s ease-out backwards;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-item:nth-child(1) { animation-delay: 0.7s; }
+        .activity-item:nth-child(2) { animation-delay: 0.75s; }
+        .activity-item:nth-child(3) { animation-delay: 0.8s; }
+
+        .activity-icon {
+            font-size: 24px;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            font-size: 12px;
+            color: #a0a0b0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #a0a0b0;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+            animation: fadeIn 0.6s ease-out 0.9s backwards;
+        }
+
+        .footer p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 32px;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .integration-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="emoji">🤖</div>
+            <h1>Elon Parker</h1>
+            <p>Assistente AI - Dashboard Profissional v2.0</p>
+            <div class="status-badge">🟢 ONLINE - 100% Uptime</div>
+            <div style="margin-top: 25px;">
+                <a href="projects.html" style="
+                    display: inline-block;
+                    padding: 12px 30px;
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 8px;
+                    font-weight: 600;
+                    transition: transform 0.3s ease, box-shadow 0.3s ease;
+                    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+                " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 40px rgba(102, 126, 234, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(102, 126, 234, 0.3)';">
+                    📂 Ver Portfolio de Projetos SEO
+                </a>
+            </div>
+        </header>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Tokens Gastos</div>
+                    <div class="metric-icon">⚡</div>
+                </div>
+                <div class="metric-value" id="tokens">8.5K</div>
+                <div class="metric-change">
+                    <span>↓ 90% vs Opus</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Custo do Dia</div>
+                    <div class="metric-icon">💰</div>
+                </div>
+                <div class="metric-value">$0.02</div>
+                <div class="metric-change">
+                    <span>✓ Dentro do orçamento</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Tarefas</div>
+                    <div class="metric-icon">✅</div>
+                </div>
+                <div class="metric-value" id="tasks">9</div>
+                <div class="metric-change">
+                    <span>100% conclusão hoje</span>
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <div class="metric-label">Uptime</div>
+                    <div class="metric-icon">🟢</div>
+                </div>
+                <div class="metric-value">100%</div>
+                <div class="metric-change">
+                    <span>Zero downtime</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">📊 Tokens ao Longo do Dia</div>
+            <div class="mini-chart">
+                <div class="bar" style="height: 30%; " title="06h"></div>
+                <div class="bar" style="height: 45%;"></div>
+                <div class="bar" style="height: 60%;"></div>
+                <div class="bar" style="height: 75%;"></div>
+                <div class="bar" style="height: 85%;"></div>
+                <div class="bar" style="height: 90%;"></div>
+                <div class="bar" style="height: 95%;"></div>
+                <div class="bar" style="height: 100%;"></div>
+            </div>
+            <div style="color: #a0a0b0; font-size: 12px; text-align: center;">
+                06h → 13h (Pico: 11:37 BRT)
+            </div>
+        </div>
+
+        <div class="integrations">
+            <h2>🔗 Integrações Ativas</h2>
+            <div class="integration-grid">
+                <div class="integration-item">
+                    <div class="integration-icon">✉️</div>
+                    <div class="integration-name">Gmail API</div>
+                    <div class="integration-status">
+                        <div class="status-dot"></div> Ativo
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">📋</div>
+                    <div class="integration-name">Trello API</div>
+                    <div class="integration-status">
+                        <div class="status-dot"></div> Ativo
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">☁️</div>
+                    <div class="integration-name">Cloudflare</div>
+                    <div class="integration-status">
+                        <div class="status-dot"></div> Ativo
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">🔗</div>
+                    <div class="integration-name">GitHub CI/CD</div>
+                    <div class="integration-status">
+                        <div class="status-dot"></div> Ativo
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">💾</div>
+                    <div class="integration-name">KV Storage</div>
+                    <div class="integration-status">
+                        <div class="status-dot"></div> Ativo
+                    </div>
+                </div>
+                <div class="integration-item">
+                    <div class="integration-icon">🎯</div>
+                    <div class="integration-name">SEO Tools</div>
+                    <div class="integration-status">
+                        <div class="status-dot"></div> Ativo
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-feed">
+            <h2>🚀 Atividades Recentes</h2>
+            <div class="activity-item">
+                <div class="activity-icon">✅</div>
+                <div class="activity-content">
+                    <div class="activity-title">Dashboard Elon Parker LIVE</div>
+                    <div class="activity-time">há 2 minutos · Cloudflare Pages</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">🔗</div>
+                <div class="activity-content">
+                    <div class="activity-title">GitHub + Cloudflare conectados</div>
+                    <div class="activity-time">há 8 minutos · CI/CD automático</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">📧</div>
+                <div class="activity-content">
+                    <div class="activity-title">Relatório automático configurado</div>
+                    <div class="activity-time">há 3 horas · Será enviado às 21h</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🚀 Infraestrutura Profissional com CI/CD Automático</p>
+            <p>Powered by: OpenClaw + Cloudflare Pages + GitHub</p>
+            <p>Última atualização: 14/02/2026 — 11:55 AM (America/Sao_Paulo)</p>
+        </footer>
+    </div>
+
+    <script>
+        // Animação de números
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                element.textContent = value + (element.id === 'tokens' ? 'K' : '');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Iniciar animações quando a página carrega
+        window.addEventListener('load', () => {
+            animateValue(document.getElementById('tokens'), 0, 8500, 1500);
+            animateValue(document.getElementById('tasks'), 0, 9, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,245 @@
+{
+  "projects": [
+    {
+      "id": "acompanhantes10",
+      "name": "acompanhantes10.com",
+      "niche": "Adult - Acompanhantes",
+      "status": "Ativo",
+      "color": "#FF6B9D",
+      "categories": {
+        "backlinks": {
+          "monitoramento": {
+            "title": "Monitoramento de Backlinks",
+            "description": "Sites monitorados com PA/DA >= 30",
+            "active_links": 0,
+            "in_negotiation": 0,
+            "quality_target": "PA >= 30, DA >= 25"
+          },
+          "contatos": {
+            "title": "Contatos de Webmasters",
+            "total_emails": 0,
+            "acordado": 0,
+            "em_negociacao": 0,
+            "sem_resposta": 0
+          },
+          "orcamentos": {
+            "title": "Orçamentos e Pagamentos",
+            "total_propostas": 0,
+            "total_gasto": 0,
+            "pagamentos_pendentes": 0
+          },
+          "renovacoes": {
+            "title": "Renovações de Links",
+            "total_links": 0,
+            "proximos_30_dias": 0,
+            "vencidos": 0
+          }
+        },
+        "dominios": {
+          "pesquisa": {
+            "title": "Pesquisa de Domínios",
+            "pesquisados": 0,
+            "disponiveis": 0,
+            "reservados": 0
+          },
+          "comprados": {
+            "title": "Domínios Comprados",
+            "total": 1,
+            "ativos": 1,
+            "em_setup": 0,
+            "parked": 0
+          },
+          "renovacoes": {
+            "title": "Renovações de Domínios",
+            "com_auto_renewal": 1,
+            "proximos_vencimentos": 0
+          }
+        },
+        "keywords": {
+          "principais": {
+            "title": "Keywords Principais",
+            "total_pesquisadas": 0,
+            "ranking_p1": 0,
+            "ranking_p2_3": 0,
+            "em_otimizacao": 0
+          },
+          "volume": {
+            "title": "Análise de Volume",
+            "cpc_medio": 0,
+            "volume_total": 0,
+            "oportunidades": 0
+          },
+          "estrategia": {
+            "title": "Estratégia de Keywords",
+            "head_terms": 0,
+            "body_keywords": 0,
+            "long_tail": 0
+          }
+        },
+        "metricas": {
+          "backlinks_qualidade": 0,
+          "domain_authority": 0,
+          "keywords_ranking": 0,
+          "trafego_mensal": 0,
+          "receita_mensal": 0
+        }
+      }
+    },
+    {
+      "id": "7k-bet-br",
+      "name": "7k.bet.br",
+      "niche": "Gambling/Betting",
+      "status": "Ativo",
+      "color": "#00BCD4",
+      "categories": {
+        "backlinks": {
+          "monitoramento": {
+            "title": "Monitoramento de Backlinks",
+            "active_links": 0,
+            "quality_target": "PA >= 30, DA >= 25, High-intent sites"
+          },
+          "contatos": {
+            "title": "Contatos de Webmasters",
+            "total_emails": 0
+          },
+          "orcamentos": {
+            "title": "Orçamentos e Pagamentos",
+            "total_propostas": 0
+          },
+          "renovacoes": {
+            "title": "Renovações de Links",
+            "total_links": 0
+          }
+        },
+        "dominios": {
+          "pesquisa": {
+            "title": "Pesquisa de Domínios",
+            "pesquisados": 0
+          },
+          "comprados": {
+            "title": "Domínios Comprados",
+            "total": 1
+          },
+          "renovacoes": {
+            "title": "Renovações de Domínios",
+            "com_auto_renewal": 1
+          }
+        },
+        "keywords": {
+          "principais": {
+            "title": "Keywords Principais",
+            "total_pesquisadas": 0
+          },
+          "volume": {
+            "title": "Análise de Volume",
+            "foco": "High-intent betting keywords"
+          },
+          "estrategia": {
+            "title": "Estratégia de Keywords",
+            "descricao": "Targeting high-intent users"
+          }
+        },
+        "metricas": {
+          "backlinks_qualidade": 0,
+          "domain_authority": 0,
+          "keywords_ranking": 0,
+          "trafego_mensal": 0
+        }
+      }
+    },
+    {
+      "id": "qualcep-org",
+      "name": "qualcep.org",
+      "niche": "Utility/Tools",
+      "status": "Ativo",
+      "color": "#4CAF50",
+      "categories": {
+        "backlinks": {
+          "monitoramento": {
+            "title": "Monitoramento de Backlinks",
+            "active_links": 0,
+            "quality_target": "PA >= 25, Relevância a ferramentas"
+          },
+          "contatos": {
+            "title": "Contatos de Webmasters",
+            "total_emails": 0
+          },
+          "orcamentos": {
+            "title": "Orçamentos e Pagamentos",
+            "total_propostas": 0
+          },
+          "renovacoes": {
+            "title": "Renovações de Links",
+            "total_links": 0
+          }
+        },
+        "dominios": {
+          "pesquisa": {
+            "title": "Pesquisa de Domínios",
+            "pesquisados": 0
+          },
+          "comprados": {
+            "title": "Domínios Comprados",
+            "total": 1
+          },
+          "renovacoes": {
+            "title": "Renovações de Domínios",
+            "com_auto_renewal": 1
+          }
+        },
+        "keywords": {
+          "principais": {
+            "title": "Keywords Principais",
+            "total_pesquisadas": 0
+          },
+          "volume": {
+            "title": "Análise de Volume",
+            "foco": "CEP, busca de ferramentas"
+          },
+          "estrategia": {
+            "title": "Estratégia de Keywords",
+            "descricao": "Utility-focused keywords"
+          }
+        },
+        "metricas": {
+          "backlinks_qualidade": 0,
+          "domain_authority": 0,
+          "keywords_ranking": 0,
+          "trafego_mensal": 0
+        }
+      }
+    },
+    {
+      "id": "fastjournal-ig",
+      "name": "instagram.com/fastjournal",
+      "niche": "Social/Content",
+      "status": "Ativo",
+      "color": "#E91E63",
+      "categories": {
+        "social": {
+          "audiencia": {
+            "title": "Análise de Audiência",
+            "seguidores": 0,
+            "taxa_crescimento": 0
+          },
+          "engagement": {
+            "title": "Engagement Metrics",
+            "likes_medio": 0,
+            "comentarios_medio": 0,
+            "compartilhamentos": 0
+          },
+          "conteudo": {
+            "title": "Estratégia de Conteúdo",
+            "posts_mes": 0,
+            "melhor_tipo_conteudo": ""
+          },
+          "monetizacao": {
+            "title": "Oportunidades de Monetização",
+            "parcerias": 0,
+            "receita_estimada": 0
+          }
+        }
+      }
+    }
+  ]
+}
