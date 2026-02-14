@@ -1,0 +1,36 @@
+# Credentials & Secrets
+memory/google_oauth_credentials.json
+memory/credentials.md
+memory/update_trello_card.py
+.env
+.env.local
+auth-profiles.json
+
+# Logs
+*.log
+/tmp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Build
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

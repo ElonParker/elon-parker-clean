@@ -1,0 +1,14 @@
+name = "elon-parker-dashboard"
+type = "javascript"
+
+account_id = "ec6d797172f6f6bd960b07412ee2eedc"
+workers_dev = true
+route = ""
+zone_id = ""
+
+[env.production]
+name = "elon-parker-dashboard"
+routes = [
+  { pattern = "elon-parker-dashboard.pages.dev", zone_name = "elon-parker-dashboard.pages.dev" }
+]
+vars = { ENVIRONMENT = "production" }
