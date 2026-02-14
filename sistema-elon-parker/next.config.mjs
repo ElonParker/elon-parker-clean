@@ -5,8 +5,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
-  // Exportar como static para Cloudflare Pages
-  output: 'export',
 }
 
 export default nextConfig
