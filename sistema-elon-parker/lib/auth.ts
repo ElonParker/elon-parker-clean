@@ -3,6 +3,37 @@ import { User, AuthResponse } from '@/types'
 // Mock database de usuários (em produção, usar banco de dados real)
 const users: Map<string, { email: string; password: string; name: string; role: string }> = new Map()
 
+// ✅ SEED: Usuários pré-registrados para teste
+// (Serão removidos quando D1 estiver pronto)
+const initializeUsers = () => {
+  // Admin user
+  users.set('admin@example.com', {
+    email: 'admin@example.com',
+    password: Buffer.from('admin123').toString('base64'), // "admin123"
+    name: 'Admin User',
+    role: 'admin',
+  })
+
+  // Normal user
+  users.set('user@example.com', {
+    email: 'user@example.com',
+    password: Buffer.from('user123').toString('base64'), // "user123"
+    name: 'Normal User',
+    role: 'user',
+  })
+
+  // Demo user
+  users.set('demo@elon.com', {
+    email: 'demo@elon.com',
+    password: Buffer.from('demo123').toString('base64'), // "demo123"
+    name: 'Demo Account',
+    role: 'user',
+  })
+}
+
+// Inicializar usuários de teste na primeira execução
+initializeUsers()
+
 // Função para hash (simplificada - em produção usar bcryptjs)
 export async function hashPassword(password: string): Promise<string> {
   // Em um ambiente real, usar bcryptjs
