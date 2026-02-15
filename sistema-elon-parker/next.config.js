@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Removido 'output: export' para rodar APIs dinâmicas no Cloudflare Workers
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: true,

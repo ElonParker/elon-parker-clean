@@ -1,0 +1,29 @@
+name = "elon-parker-auth"
+type = "javascript"
+compatibility_date = "2024-09-23"
+
+# Cloudflare Pages Build Config
+[env.production]
+name = "elon-parker-auth-prod"
+
+# Variáveis de Ambiente (opcional)
+[env.production.vars]
+# Suas variáveis de produção aqui
+
+# Build Settings para Pages
+[build]
+# Build command - invoca o adapter do Cloudflare
+command = "npm install && npm run build"
+cwd = "./"
+
+# Output directory do Next.js com adapter Cloudflare
+# O @cloudflare/next-on-pages cria isto automaticamente
+upload = { directory = ".next" }
+
+# Configuração de Node.js
+node_compat = true
+
+# Routes (opcional para Pages)
+# [[routes]]
+# pattern = "elon-parker-auth.pages.dev/*"
+# zone_name = "castelodigital.net"

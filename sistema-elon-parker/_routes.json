@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "description": "Rotas dinâmicas do Elon Parker Auth System",
+  "include": [
+    "/api/*",
+    "/dashboard",
+    "/dashboard/*"
+  ],
+  "exclude": [
+    "/favicon.ico",
+    "/*.js",
+    "/*.css",
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.svg",
+    "*.gif",
+    "*.webp"
+  ]
+}
