@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { login } from '@/lib/auth-client'
 
 export default function LoginForm() {
   const [email, setEmail] = useState('')
@@ -17,30 +18,20 @@ export default function LoginForm() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
+      const result = login(email, password)
 
-      const data = await response.json()
-
-      if (data.success) {
-        // Salvar token e dados do user no localStorage
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
-
+      if (result.success && result.user) {
         // ✅ REDIRECIONAR BASEADO NO ROLE
-        if (data.user?.role === 'admin') {
+        if (result.user.role === 'admin') {
           router.push('/admin')
         } else {
           router.push('/dashboard')
         }
       } else {
-        setError(data.message || 'Erro ao fazer login')
+        setError(result.message || 'Erro ao fazer login')
       }
     } catch (err) {
-      setError('Erro ao conectar ao servidor')
+      setError('Erro inesperado ao fazer login')
     } finally {
       setLoading(false)
     }

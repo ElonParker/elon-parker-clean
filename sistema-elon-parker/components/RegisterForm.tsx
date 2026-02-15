@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { register } from '@/lib/auth-client'
 
 export default function RegisterForm() {
   const [name, setName] = useState('')
@@ -25,23 +26,15 @@ export default function RegisterForm() {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name, confirmPassword }),
-      })
+      const result = register(email, password, name)
 
-      const data = await response.json()
-
-      if (data.success) {
-        localStorage.setItem('token', data.token)
-        localStorage.setItem('user', JSON.stringify(data.user))
+      if (result.success) {
         router.push('/dashboard')
       } else {
-        setError(data.message || 'Erro ao registrar')
+        setError(result.message || 'Erro ao registrar')
       }
     } catch (err) {
-      setError('Erro ao conectar ao servidor')
+      setError('Erro inesperado ao registrar')
     } finally {
       setLoading(false)
     }

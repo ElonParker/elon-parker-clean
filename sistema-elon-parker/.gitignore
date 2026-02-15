@@ -46,3 +46,6 @@ out
 
 # vercel
 .vercel
+node_modules/
+.next/
+out/
