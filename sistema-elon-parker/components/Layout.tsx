@@ -17,7 +17,11 @@ export default function Layout({ children, isAuthenticated = false }: LayoutProp
   useEffect(() => {
     const userData = localStorage.getItem('user')
     if (userData) {
-      setUser(JSON.parse(userData))
+      try {
+        setUser(JSON.parse(userData))
+      } catch {
+        // ignore
+      }
     }
   }, [])
 
@@ -31,6 +35,8 @@ export default function Layout({ children, isAuthenticated = false }: LayoutProp
     return <>{children}</>
   }
 
+  const isAdmin = user?.role === 'admin'
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark via-darker to-dark">
       {/* Header */}
@@ -40,7 +46,7 @@ export default function Layout({ children, isAuthenticated = false }: LayoutProp
             {/* Logo */}
             <Link href="/dashboard" className="flex items-center gap-2">
               <div className="text-2xl">🤖</div>
-              <span className="text-xl font-bold text-primary">Elon Parker</span>
+              <span className="text-xl font-bold text-primary">Elon</span>
             </Link>
 
             {/* Desktop Menu */}
@@ -48,12 +54,18 @@ export default function Layout({ children, isAuthenticated = false }: LayoutProp
               <Link href="/dashboard" className="text-gray-300 hover:text-primary transition">
                 Dashboard
               </Link>
-              <Link href="/projects" className="text-gray-300 hover:text-primary transition">
-                Projetos
+              <Link href="/dashboard" className="text-gray-300 hover:text-primary transition">
+                Perfil
               </Link>
-              <Link href="/analytics" className="text-gray-300 hover:text-primary transition">
-                Analytics
-              </Link>
+              {/* ✅ Link para Admin — só aparece para admins */}
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="text-red-400 hover:text-red-300 transition font-semibold flex items-center gap-1"
+                >
+                  🛡️ Admin
+                </Link>
+              )}
             </nav>
 
             {/* User Menu */}
@@ -62,34 +74,60 @@ export default function Layout({ children, isAuthenticated = false }: LayoutProp
                 <p className="text-sm text-gray-300">{user?.name}</p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
+              <div className="relative">
+                <button
+                  onClick={() => setIsMenuOpen(!isMenuOpen)}
+                  className="w-10 h-10 rounded-full bg-primary/20 border border-primary flex items-center justify-center text-primary hover:bg-primary/30 transition"
+                >
+                  {user?.name?.charAt(0).toUpperCase() || 'U'}
+                </button>
+
+                {/* Dropdown Menu */}
+                {isMenuOpen && (
+                  <div className="absolute top-12 right-0 w-48 bg-darker border border-gray-700 rounded-lg shadow-xl overflow-hidden z-50">
+                    <div className="px-4 py-3 border-b border-gray-700">
+                      <p className="text-sm text-white font-medium">{user?.name}</p>
+                      <p className="text-xs text-gray-400">{user?.email}</p>
+                      {isAdmin && (
+                        <span className="inline-block mt-1 px-2 py-0.5 bg-red-500/20 text-red-400 text-xs rounded-full font-semibold">
+                          ADMIN
+                        </span>
+                      )}
+                    </div>
+                    <Link
+                      href="/dashboard"
+                      className="block px-4 py-2 text-gray-300 hover:bg-primary/20 transition"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Perfil
+                    </Link>
+                    {isAdmin && (
+                      <Link
+                        href="/admin"
+                        className="block px-4 py-2 text-red-400 hover:bg-red-500/20 transition font-medium"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        🛡️ Admin Panel
+                      </Link>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/20 transition border-t border-gray-700"
+                    >
+                      Sair
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Mobile Menu Button */}
               <button
+                className="md:hidden text-gray-300 text-xl"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="w-10 h-10 rounded-full bg-primary/20 border border-primary flex items-center justify-center text-primary hover:bg-primary/30 transition"
               >
-                {user?.name?.charAt(0).toUpperCase() || 'U'}
+                ☰
               </button>
-
-              {/* Dropdown Menu */}
-              {isMenuOpen && (
-                <div className="absolute top-16 right-4 bg-darker border border-gray-700 rounded-lg shadow-xl overflow-hidden">
-                  <Link href="/profile" className="block px-4 py-2 text-gray-300 hover:bg-primary/20 transition">
-                    Perfil
-                  </Link>
-                  <Link href="/settings" className="block px-4 py-2 text-gray-300 hover:bg-primary/20 transition">
-                    Configurações
-                  </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-red-400 hover:bg-red-500/20 transition"
-                  >
-                    Sair
-                  </button>
-                </div>
-              )}
             </div>
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden text-gray-300">☰</button>
           </div>
         </div>
       </header>

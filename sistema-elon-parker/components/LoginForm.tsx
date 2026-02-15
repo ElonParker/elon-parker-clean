@@ -26,9 +26,16 @@ export default function LoginForm() {
       const data = await response.json()
 
       if (data.success) {
+        // Salvar token e dados do user no localStorage
         localStorage.setItem('token', data.token)
         localStorage.setItem('user', JSON.stringify(data.user))
-        router.push('/dashboard')
+
+        // ✅ REDIRECIONAR BASEADO NO ROLE
+        if (data.user?.role === 'admin') {
+          router.push('/admin')
+        } else {
+          router.push('/dashboard')
+        }
       } else {
         setError(data.message || 'Erro ao fazer login')
       }
