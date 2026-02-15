@@ -1,108 +1,200 @@
-'use client'
+'use client';
+
+import { useState } from 'react';
 
 export default function SettingsPage() {
+  const [settings, setSettings] = useState({
+    systemName: 'Elon System',
+    autoSync: true,
+    trelloSync: true,
+    emailNotifications: true,
+    darkMode: true,
+    consolidationTime: '23:00',
+  });
+
+  const [saved, setSaved] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+
+    setSettings((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+    setSaved(false);
+  };
+
+  const handleSave = async () => {
+    try {
+      // Simulado - substituir com API real
+      console.log('Salvando configurações:', settings);
+      setSaved(true);
+      setTimeout(() => setSaved(false), 3000);
+    } catch (error) {
+      console.error('Failed to save settings:', error);
+    }
+  };
+
   return (
-    <div className="animate-fade-in space-y-8">
-      <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/50 rounded-2xl p-8">
-        <h1 className="text-4xl font-bold text-primary mb-2">⚙️ Configurações</h1>
-        <p className="text-gray-400">Ajuste as configurações do sistema Elon</p>
-      </div>
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-8">⚙️ Configurações do Sistema</h1>
 
-      <div className="max-w-2xl space-y-6">
-        {/* Configurações Gerais */}
-        <div className="bg-darker/50 border border-gray-700 rounded-2xl p-8">
-          <h2 className="text-xl font-bold text-white mb-6">🔧 Configurações Gerais</h2>
+      {saved && (
+        <div className="mb-6 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300">
+          ✓ Configurações salvas com sucesso!
+        </div>
+      )}
+
+      <div className="space-y-6">
+        {/* General Settings */}
+        <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Configurações Gerais</h3>
           <div className="space-y-4">
             <div>
-              <label className="text-gray-400 text-sm font-semibold block mb-2">Nome do Sistema</label>
+              <label className="block text-slate-300 text-sm font-medium mb-2">
+                Nome do Sistema
+              </label>
               <input
                 type="text"
-                defaultValue="Elon System v1.0"
-                className="w-full bg-darker border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-primary outline-none"
+                name="systemName"
+                value={settings.systemName}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50"
               />
             </div>
+
             <div>
-              <label className="text-gray-400 text-sm font-semibold block mb-2">Descrição</label>
-              <textarea
-                defaultValue="Sistema integrado de gestão de projetos SEO com 9 agentes IA"
-                className="w-full bg-darker border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-primary outline-none h-20"
+              <label className="block text-slate-300 text-sm font-medium mb-2">
+                Hora da Consolidação Diária
+              </label>
+              <input
+                type="time"
+                name="consolidationTime"
+                value={settings.consolidationTime}
+                onChange={handleChange}
+                className="w-full px-4 py-2 bg-slate-900/50 border border-slate-600/50 rounded-lg text-white focus:outline-none focus:border-blue-500/50"
               />
             </div>
           </div>
         </div>
 
-        {/* Segurança */}
-        <div className="bg-darker/50 border border-gray-700 rounded-2xl p-8">
-          <h2 className="text-xl font-bold text-white mb-6">🔐 Segurança</h2>
+        {/* Integration Settings */}
+        <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Integrações</h3>
           <div className="space-y-4">
-            <label className="flex items-center gap-4 cursor-pointer">
-              <input type="checkbox" defaultChecked className="w-5 h-5" />
-              <span className="text-gray-300">Exigir 2FA para admin</span>
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="trelloSync"
+                checked={settings.trelloSync}
+                onChange={handleChange}
+                className="w-4 h-4 rounded"
+              />
+              <span className="text-slate-300">
+                Sincronização Automática com Trello
+              </span>
             </label>
-            <label className="flex items-center gap-4 cursor-pointer">
-              <input type="checkbox" defaultChecked className="w-5 h-5" />
-              <span className="text-gray-300">Logs de auditoria habilitados</span>
-            </label>
-            <label className="flex items-center gap-4 cursor-pointer">
-              <input type="checkbox" defaultChecked className="w-5 h-5" />
-              <span className="text-gray-300">CORS habilitado</span>
+
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="autoSync"
+                checked={settings.autoSync}
+                onChange={handleChange}
+                className="w-4 h-4 rounded"
+              />
+              <span className="text-slate-300">
+                Sincronização Automática de Integrações
+              </span>
             </label>
           </div>
         </div>
 
-        {/* API */}
-        <div className="bg-darker/50 border border-gray-700 rounded-2xl p-8">
-          <h2 className="text-xl font-bold text-white mb-6">🔌 API</h2>
+        {/* Notification Settings */}
+        <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Notificações</h3>
           <div className="space-y-4">
-            <div>
-              <label className="text-gray-400 text-sm font-semibold block mb-2">Base URL</label>
+            <label className="flex items-center gap-3 cursor-pointer">
               <input
-                type="text"
-                defaultValue="https://api.elonsystem.com"
+                type="checkbox"
+                name="emailNotifications"
+                checked={settings.emailNotifications}
+                onChange={handleChange}
+                className="w-4 h-4 rounded"
+              />
+              <span className="text-slate-300">
+                Notificações por Email
+              </span>
+            </label>
+
+            <div className="text-sm text-slate-400 ml-7">
+              Receba alertas sobre tarefas completadas, bloqueios e consolidações diárias.
+            </div>
+          </div>
+        </div>
+
+        {/* Appearance Settings */}
+        <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Aparência</h3>
+          <div className="space-y-4">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                name="darkMode"
+                checked={settings.darkMode}
+                onChange={handleChange}
                 disabled
-                className="w-full bg-darker border border-gray-700 rounded-lg px-4 py-2 text-gray-500 focus:border-primary outline-none"
+                className="w-4 h-4 rounded opacity-50"
               />
-            </div>
-            <div>
-              <label className="text-gray-400 text-sm font-semibold block mb-2">Rate Limit (req/min)</label>
-              <input
-                type="number"
-                defaultValue="60"
-                className="w-full bg-darker border border-gray-700 rounded-lg px-4 py-2 text-white focus:border-primary outline-none"
-              />
-            </div>
+              <span className="text-slate-300">
+                Modo Escuro (Padrão - não pode ser alterado)
+              </span>
+            </label>
           </div>
         </div>
 
-        {/* Agentes */}
-        <div className="bg-darker/50 border border-gray-700 rounded-2xl p-8">
-          <h2 className="text-xl font-bold text-white mb-6">🤖 Configuração de Agentes</h2>
+        {/* API Keys Section */}
+        <div className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Chaves de API</h3>
           <div className="space-y-4">
-            <label className="flex items-center gap-4 cursor-pointer">
-              <input type="checkbox" defaultChecked className="w-5 h-5" />
-              <span className="text-gray-300">Habilitar paralelização de agentes</span>
-            </label>
-            <label className="flex items-center gap-4 cursor-pointer">
-              <input type="checkbox" defaultChecked className="w-5 h-5" />
-              <span className="text-gray-300">Cache de resultados</span>
-            </label>
-            <label className="flex items-center gap-4 cursor-pointer">
-              <input type="checkbox" defaultChecked className="w-5 h-5" />
-              <span className="text-gray-300">Conversas em tempo real</span>
-            </label>
+            <p className="text-slate-400 text-sm mb-4">
+              Todas as chaves de API estão armazenadas com segurança em variáveis de ambiente.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="p-3 bg-slate-900/50 rounded border border-slate-700/50">
+                <p className="text-slate-500 text-xs">Trello API</p>
+                <p className="text-slate-300 text-sm font-mono">●●●●●●●●●●</p>
+              </div>
+              <div className="p-3 bg-slate-900/50 rounded border border-slate-700/50">
+                <p className="text-slate-500 text-xs">GitHub Token</p>
+                <p className="text-slate-300 text-sm font-mono">●●●●●●●●●●</p>
+              </div>
+              <div className="p-3 bg-slate-900/50 rounded border border-slate-700/50">
+                <p className="text-slate-500 text-xs">Gmail API</p>
+                <p className="text-slate-300 text-sm font-mono">●●●●●●●●●●</p>
+              </div>
+              <div className="p-3 bg-slate-900/50 rounded border border-slate-700/50">
+                <p className="text-slate-500 text-xs">Cloudflare API</p>
+                <p className="text-slate-300 text-sm font-mono">●●●●●●●●●●</p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Botões */}
-        <div className="flex gap-4 pt-4">
-          <button className="bg-primary hover:bg-primary/80 text-white font-semibold px-8 py-3 rounded-lg transition">
-            💾 Salvar Alterações
+        {/* Action Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={handleSave}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition"
+          >
+            💾 Salvar Configurações
           </button>
-          <button className="bg-gray-700 hover:bg-gray-600 text-white font-semibold px-8 py-3 rounded-lg transition">
-            ↩️ Cancelar
+          <button className="px-6 py-2 bg-slate-600/20 hover:bg-slate-600/30 text-slate-300 rounded-lg font-medium transition">
+            🔄 Resetar Padrões
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

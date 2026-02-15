@@ -1,43 +1,111 @@
-'use client'
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface Agent {
+  id: string;
+  name: string;
+  status: 'active' | 'inactive';
+  lastSeen: string;
+  tasks: number;
+}
 
 export default function AgentsPage() {
-  const agents = [
-    { emoji: '💰', name: 'Financeiro', desc: 'Análise de ROI e fluxo de caixa', status: 'online' },
-    { emoji: '📊', name: 'Analista de Mercado', desc: 'Pesquisa de tendências e volume', status: 'online' },
-    { emoji: '🔍', name: 'Analista de Concorrentes', desc: 'Análise de backlinks e gaps', status: 'online' },
-    { emoji: '🌐', name: 'Procurador de Domínios', desc: 'Procura domínios disponíveis', status: 'online' },
-    { emoji: '🔑', name: 'Procurador de Keywords', desc: 'Pesquisa keywords com potencial', status: 'online' },
-    { emoji: '📢', name: 'Procurador de Anúncios', desc: 'Testa ad copies virais', status: 'online' },
-    { emoji: '🎥', name: 'Procurador de Vídeos', desc: 'Encontra ângulos virais', status: 'online' },
-    { emoji: '💳', name: 'Comprador de Domínios', desc: 'Automatiza compra de domínios', status: 'online' },
-    { emoji: '🚀', name: 'Dev Full Cloudflare', desc: 'Cria infraestrutura e deploy', status: 'online' },
-  ]
+  const [agents, setAgents] = useState<Agent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadAgents = async () => {
+      try {
+        // Simulado - substituir com API real
+        const mockAgents: Agent[] = [
+          {
+            id: 'elon-1',
+            name: 'Elon Parker',
+            status: 'active',
+            lastSeen: new Date().toISOString(),
+            tasks: 12,
+          },
+          {
+            id: 'agent-2',
+            name: 'Financial Agent',
+            status: 'active',
+            lastSeen: new Date(Date.now() - 3600000).toISOString(),
+            tasks: 5,
+          },
+          {
+            id: 'agent-3',
+            name: 'Market Analysis',
+            status: 'inactive',
+            lastSeen: new Date(Date.now() - 86400000).toISOString(),
+            tasks: 8,
+          },
+        ];
+        setAgents(mockAgents);
+      } catch (error) {
+        console.error('Failed to load agents:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAgents();
+  }, []);
+
+  if (loading) {
+    return <div className="text-white text-center py-8">Carregando agentes...</div>;
+  }
 
   return (
-    <div className="animate-fade-in space-y-8">
-      <div className="bg-gradient-to-r from-primary/20 to-secondary/20 border border-primary/50 rounded-2xl p-8">
-        <h1 className="text-4xl font-bold text-primary mb-2">🤖 Agentes Especializados</h1>
-        <p className="text-gray-400">9 agentes IA colaborativos trabalhando em tempo real</p>
-      </div>
+    <div>
+      <h1 className="text-3xl font-bold text-white mb-8">🤖 Gerenciamento de Agentes</h1>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {agents.map((agent, i) => (
-          <div key={i} className="bg-darker/50 border border-gray-700 rounded-xl p-6 hover:border-primary/50 transition">
-            <div className="flex items-start justify-between mb-4">
-              <span className="text-4xl">{agent.emoji}</span>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+      <div className="grid gap-6">
+        {agents.map((agent) => (
+          <div
+            key={agent.id}
+            className="bg-slate-800/50 backdrop-blur border border-slate-700/50 rounded-lg p-6 hover:border-slate-600/50 transition"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-white">{agent.name}</h3>
+                <p className="text-sm text-slate-400">{agent.id}</p>
+              </div>
+              <div
+                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  agent.status === 'active'
+                    ? 'bg-green-500/20 text-green-300'
+                    : 'bg-gray-500/20 text-gray-300'
+                }`}
+              >
+                {agent.status === 'active' ? '🟢 Ativo' : '⚪ Inativo'}
+              </div>
             </div>
-            <h3 className="text-lg font-bold text-primary mb-2">{agent.name}</h3>
-            <p className="text-gray-400 text-sm mb-4">{agent.desc}</p>
-            <div className="flex items-center justify-between pt-4 border-t border-gray-600">
-              <span className="text-xs text-green-400">✓ {agent.status}</span>
-              <button className="text-xs bg-primary/20 hover:bg-primary/30 text-primary px-3 py-1 rounded transition">
-                Ver detalhes
+
+            <div className="grid grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-slate-400">Última atividade</p>
+                <p className="text-white">
+                  {new Date(agent.lastSeen).toLocaleString('pt-BR')}
+                </p>
+              </div>
+              <div>
+                <p className="text-slate-400">Tarefas em andamento</p>
+                <p className="text-white font-semibold">{agent.tasks}</p>
+              </div>
+            </div>
+
+            <div className="mt-4 flex gap-2">
+              <button className="px-3 py-1 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 rounded text-sm transition">
+                Ver Detalhes
+              </button>
+              <button className="px-3 py-1 bg-slate-600/20 hover:bg-slate-600/30 text-slate-300 rounded text-sm transition">
+                Configurar
               </button>
             </div>
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }

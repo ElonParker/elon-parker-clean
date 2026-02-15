@@ -1,150 +1,144 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const [isAdmin, setIsAdmin] = useState(false)
-  const [loading, setLoading] = useState(true)
-  const [userName, setUserName] = useState('')
-  const router = useRouter()
+  const router = useRouter();
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    const userStr = localStorage.getItem('user')
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/verify', {
+          credentials: 'include',
+        });
 
-    if (!token || !userStr) {
-      console.log('🚫 Sem token ou user. Redirecionando para login...')
-      router.push('/login')
-      return
-    }
+        if (!response.ok) {
+          router.push('/dashboard');
+          return;
+        }
 
-    try {
-      const user = JSON.parse(userStr)
-      console.log('👤 User encontrado:', user)
+        const data = await response.json();
+        
+        if (data.role !== 'admin') {
+          router.push('/dashboard');
+          return;
+        }
 
-      // ✅ VALIDAÇÃO DE ROLE
-      if (user.role !== 'admin') {
-        console.warn('🚫 Acesso negado: usuário não é admin. Role:', user.role)
-        router.push('/dashboard')
-        return
+        setIsAdmin(true);
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        router.push('/dashboard');
+      } finally {
+        setLoading(false);
       }
+    };
 
-      console.log('✅ Admin autenticado!')
-      setUserName(user.name || user.email)
-      setIsAdmin(true)
-      setLoading(false)
+    checkAuth();
+  }, [router]);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      router.push('/login');
     } catch (error) {
-      console.error('❌ Erro ao parsear user:', error)
-      router.push('/login')
+      console.error('Logout failed:', error);
     }
-  }, [router])
+  };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-dark via-darker to-dark">
-        <div className="text-center">
-          <div className="animate-spin text-4xl mb-4">⚙️</div>
-          <p className="text-gray-400">Carregando painel admin...</p>
-        </div>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <div className="text-white text-xl">Carregando...</div>
       </div>
-    )
+    );
   }
 
   if (!isAdmin) {
-    return null // Já redirecionado
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    router.push('/login')
+    return null;
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark via-darker to-dark">
-      {/* ===== ADMIN NAVBAR ===== */}
-      <nav className="bg-darker/80 border-b border-gray-700 sticky top-0 z-50 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          {/* Logo */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      {/* Header */}
+      <header className="bg-slate-800/50 backdrop-blur border-b border-slate-700/50">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-3xl">🔧</span>
-            <div>
-              <h1 className="text-2xl font-bold text-primary">Painel Admin</h1>
-              <p className="text-xs text-gray-400">Elon System v1.0</p>
+            <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-lg flex items-center justify-center text-white font-bold">
+              ⚙️
             </div>
+            <h1 className="text-xl font-bold text-white">Admin Panel</h1>
           </div>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition"
+          >
+            Logout
+          </button>
+        </div>
+      </header>
 
-          {/* Nav Links */}
-          <div className="hidden md:flex gap-8">
-            <Link
-              href="/admin"
-              className="text-gray-400 hover:text-primary transition font-medium"
-            >
-              📊 Dashboard
-            </Link>
+      <div className="flex">
+        {/* Sidebar Navigation */}
+        <aside className="w-64 bg-slate-800/30 backdrop-blur border-r border-slate-700/50 min-h-screen">
+          <nav className="p-6 space-y-2">
             <Link
               href="/admin/agents"
-              className="text-gray-400 hover:text-primary transition font-medium"
+              className="block px-4 py-2 rounded-lg hover:bg-slate-700/50 text-slate-200 hover:text-white transition"
             >
               🤖 Agentes
             </Link>
             <Link
               href="/admin/tasks"
-              className="text-gray-400 hover:text-primary transition font-medium"
+              className="block px-4 py-2 rounded-lg hover:bg-slate-700/50 text-slate-200 hover:text-white transition"
             >
               📋 Tarefas
             </Link>
             <Link
               href="/admin/users"
-              className="text-gray-400 hover:text-primary transition font-medium"
+              className="block px-4 py-2 rounded-lg hover:bg-slate-700/50 text-slate-200 hover:text-white transition"
             >
               👥 Usuários
             </Link>
             <Link
               href="/admin/analytics"
-              className="text-gray-400 hover:text-primary transition font-medium"
+              className="block px-4 py-2 rounded-lg hover:bg-slate-700/50 text-slate-200 hover:text-white transition"
             >
-              📈 Analytics
+              📊 Analytics
             </Link>
             <Link
               href="/admin/settings"
-              className="text-gray-400 hover:text-primary transition font-medium"
+              className="block px-4 py-2 rounded-lg hover:bg-slate-700/50 text-slate-200 hover:text-white transition"
             >
-              ⚙️ Config
+              ⚙️ Configurações
             </Link>
-          </div>
-
-          {/* User Info + Logout */}
-          <div className="flex items-center gap-4">
-            <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-white">{userName}</p>
-              <p className="text-xs text-green-400">✓ Admin</p>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition transform hover:scale-105"
+            <hr className="my-4 border-slate-700/50" />
+            <Link
+              href="/dashboard"
+              className="block px-4 py-2 rounded-lg hover:bg-slate-700/50 text-slate-200 hover:text-white transition"
             >
-              Sair
-            </button>
+              ← Voltar ao Dashboard
+            </Link>
+          </nav>
+        </aside>
+
+        {/* Main Content */}
+        <main className="flex-1 p-8">
+          <div className="max-w-6xl">
+            {children}
           </div>
-        </div>
-      </nav>
-
-      {/* ===== MAIN CONTENT ===== */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
-        {children}
-      </main>
-
-      {/* ===== FOOTER ===== */}
-      <footer className="mt-20 pt-8 border-t border-gray-700 text-center text-gray-500 text-sm">
-        <p>© 2026 Elon Parker Admin. Sistema de Agentes Autônomos.</p>
-      </footer>
+        </main>
+      </div>
     </div>
-  )
+  );
 }
